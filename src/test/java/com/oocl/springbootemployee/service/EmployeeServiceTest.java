@@ -16,15 +16,26 @@ import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
 import com.oocl.springbootemployee.repository.EmployeeInMemoryRepository;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 
+import com.oocl.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
+    @Mock
+    EmployeeInMemoryRepository employeeInMemoryRepository;
+
+    @Mock
+    EmployeeRepository employeeRepository;
+
     @Test
     void should_return_the_given_employees_when_getAllEmployees() {
         //given
-        EmployeeInMemoryRepository mockedEmployeeRepository = mock(EmployeeInMemoryRepository.class);
-        when(mockedEmployeeRepository.findAll()).thenReturn(List.of(new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0)));
-        EmployeeService employeeService = new EmployeeService(mockedEmployeeRepository);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository,employeeRepository);
+        when(employeeInMemoryRepository.findAll()).thenReturn(List.of(new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0)));
 
         //when
         List<Employee> allEmployees = employeeService.findAll();
@@ -37,10 +48,10 @@ class EmployeeServiceTest {
     @Test
     void should_return_the_created_employee_when_create_given_a_employee() {
         //given
-        EmployeeInMemoryRepository mockedEmployeeRepository = mock(EmployeeInMemoryRepository.class);
+        EmployeeInMemoryRepository employeeInMemoryRepository = mock(EmployeeInMemoryRepository.class);
         Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
-        when(mockedEmployeeRepository.create(any())).thenReturn(lucy);
-        EmployeeService employeeService = new EmployeeService(mockedEmployeeRepository);
+        when(employeeInMemoryRepository.create(any())).thenReturn(lucy);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository);
 
         //when
         Employee createdEmployee = employeeService.create(lucy);
@@ -52,13 +63,13 @@ class EmployeeServiceTest {
     @Test
     void should_throw_EmployeeAgeNotValidException_when_create_given_a_employee_with_age_17() {
         //given
-        EmployeeInMemoryRepository mockedEmployeeRepository = mock(EmployeeInMemoryRepository.class);
+        EmployeeInMemoryRepository employeeInMemoryRepository = mock(EmployeeInMemoryRepository.class);
         Employee kitty = new Employee(1, "Kitty", 6, Gender.FEMALE, 8000.0);
-        EmployeeService employeeService = new EmployeeService(mockedEmployeeRepository);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository);
         //when
         //then
         assertThrows(EmployeeAgeNotValidException.class, () -> employeeService.create(kitty));
-        verify(mockedEmployeeRepository, never()).create(any());
+        verify(employeeInMemoryRepository, never()).create(any());
     }
 
     @Test
