@@ -206,7 +206,7 @@ class EmployeeControllerTest {
         // Then
         client.perform(MockMvcRequestBuilders.delete("/employees/" + givenId))
             .andExpect(MockMvcResultMatchers.status().isNoContent());
-        List<Employee> employees = employeeInMemoryRepository.findAll();
+        List<Employee> employees = employeeRepository.findAll();
         assertThat(employees).hasSize(4);
         assertThat(employees.get(0).getId()).isEqualTo(2);
         assertThat(employees.get(1).getId()).isEqualTo(3);
@@ -217,7 +217,7 @@ class EmployeeControllerTest {
     @Test
     void should_return_employees_when_get_by_pageable() throws Exception {
         //given
-        final List<Employee> givenEmployees = employeeInMemoryRepository.findAll();
+        final List<Employee> givenEmployees = employeeRepository.findAll();
 
         //when
         //then
