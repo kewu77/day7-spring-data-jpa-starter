@@ -95,13 +95,12 @@ class EmployeeServiceTest {
     @Test
     void should_throw_EmployeeAgeSalaryNotMatchedException_when_save_given_a_employee_with_age_over_30_and_salary_below_20K() {
         //given
-        EmployeeInMemoryRepository mockedEmployeeRepository = mock(EmployeeInMemoryRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository,employeeRepository);
         Employee bob = new Employee(1, "Bob", 31, Gender.FEMALE, 8000.0);
-        EmployeeService employeeService = new EmployeeService(mockedEmployeeRepository);
         //when
         //then
         assertThrows(EmployeeAgeSalaryNotMatchedException.class, () -> employeeService.create(bob));
-        verify(mockedEmployeeRepository, never()).create(any());
+        verify(employeeInMemoryRepository, never()).create(any());
     }
 
     @Test
