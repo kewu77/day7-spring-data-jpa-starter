@@ -48,10 +48,9 @@ class EmployeeServiceTest {
     @Test
     void should_return_the_created_employee_when_create_given_a_employee() {
         //given
-        EmployeeInMemoryRepository employeeInMemoryRepository = mock(EmployeeInMemoryRepository.class);
         Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
         when(employeeInMemoryRepository.create(any())).thenReturn(lucy);
-        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository,employeeRepository);
 
         //when
         Employee createdEmployee = employeeService.create(lucy);
