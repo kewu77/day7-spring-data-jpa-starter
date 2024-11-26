@@ -43,7 +43,7 @@ class EmployeeControllerTest {
     @BeforeEach
     void setUp() {
         givenDataToInMemory();
-        givenDataToJpa();
+        //givenDataToJpa();
     }
 
     public void givenDataToInMemory(){
@@ -67,7 +67,7 @@ class EmployeeControllerTest {
     @Test
     void should_return_employees_when_get_all_given_employee_exist() throws Exception {
         //given
-        final List<Employee> givenEmployees = employeeInMemoryRepository.findAll();
+        final List<Employee> givenEmployees = employeeRepository.findAll();
 
         //when
         //then
