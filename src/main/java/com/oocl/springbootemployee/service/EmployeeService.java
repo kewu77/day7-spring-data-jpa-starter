@@ -35,7 +35,7 @@ public class EmployeeService {
     }
 
     public Employee findById(Integer employeeId) {
-        return employeeRepository.getById(employeeId);
+        return employeeRepository.getEmployeeById(employeeId);
     }
 
     public Employee create(Employee employee) {
