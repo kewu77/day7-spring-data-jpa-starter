@@ -8,6 +8,8 @@ import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
 import com.oocl.springbootemployee.repository.EmployeeInMemoryRepository;
 import java.util.List;
+
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureJsonTesters
 class EmployeeControllerTest {
 
-    @Autowired
+    @Resource
     private MockMvc client;
 
     @Autowired
     private EmployeeInMemoryRepository employeeRepository;
 
-    @Autowired
+    @Resource
     private JacksonTester<List<Employee>> employeesJacksonTester;
 
     @BeforeEach
