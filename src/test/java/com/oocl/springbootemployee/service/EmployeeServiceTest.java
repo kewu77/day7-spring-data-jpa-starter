@@ -52,7 +52,7 @@ class EmployeeServiceTest {
     void should_return_the_created_employee_when_create_given_a_employee() {
         //given
         Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
-        when(employeeInMemoryRepository.create(any())).thenReturn(lucy);
+        when(employeeRepository.save(any())).thenReturn(lucy);
 
         //when
         Employee createdEmployee = employeeService.create(lucy);
@@ -68,7 +68,7 @@ class EmployeeServiceTest {
         //when
         //then
         assertThrows(EmployeeAgeNotValidException.class, () -> employeeService.create(kitty));
-        verify(employeeInMemoryRepository, never()).create(any());
+        verify(employeeRepository, never()).save(any());
     }
 
     @Test
@@ -78,7 +78,7 @@ class EmployeeServiceTest {
         //when
         //then
         assertThrows(EmployeeAgeNotValidException.class, () -> employeeService.create(kitty));
-        verify(employeeInMemoryRepository, never()).create(any());
+        verify(employeeRepository, never()).save(any());
     }
 
     @Test
@@ -88,7 +88,7 @@ class EmployeeServiceTest {
         //when
         employeeService.create(lucy);
         /* then */
-        verify(employeeInMemoryRepository).create(argThat(Employee::getActive));
+        verify(employeeRepository).save(argThat(Employee::getActive));
     }
 
     @Test
@@ -98,7 +98,7 @@ class EmployeeServiceTest {
         //when
         //then
         assertThrows(EmployeeAgeSalaryNotMatchedException.class, () -> employeeService.create(bob));
-        verify(employeeInMemoryRepository, never()).create(any());
+        verify(employeeRepository, never()).save(any());
     }
 
     @Test
@@ -107,10 +107,10 @@ class EmployeeServiceTest {
 
         Employee inactiveEmployee = new Employee(1, "Bob", 31, Gender.FEMALE, 8000.0);
         inactiveEmployee.setActive(false);
-        when(employeeInMemoryRepository.findById(1)).thenReturn(inactiveEmployee);
+        when(employeeRepository.findById(1)).thenReturn(java.util.Optional.of(inactiveEmployee));
         //when
         //then
         assertThrows(EmployeeInactiveException.class, () -> employeeService.update(1, inactiveEmployee));
-        verify(employeeInMemoryRepository, never()).create(any());
+        verify(employeeRepository, never()).save(any());
     }
 }

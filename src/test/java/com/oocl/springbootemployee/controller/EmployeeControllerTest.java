@@ -49,20 +49,20 @@ class EmployeeControllerTest {
 
     public void givenDataToInMemory() {
         employeeInMemoryRepository.findAll().clear();
-        employeeInMemoryRepository.create(new Employee(null, "John Smith", 32, Gender.MALE, 5000.0));
-        employeeInMemoryRepository.create(new Employee(null, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
-        employeeInMemoryRepository.create(new Employee(null, "David Williams", 35, Gender.MALE, 5500.0));
-        employeeInMemoryRepository.create(new Employee(null, "Emily Brown", 23, Gender.FEMALE, 4500.0));
-        employeeInMemoryRepository.create(new Employee(null, "Michael Jones", 40, Gender.MALE, 7000.0));
+        employeeInMemoryRepository.create(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
+        employeeInMemoryRepository.create(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
+        employeeInMemoryRepository.create(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
+        employeeInMemoryRepository.create(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
+        employeeInMemoryRepository.create(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
     }
 
     public void givenDataToJpa() {
         employeeRepository.deleteAll();
-        employeeRepository.save(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
-        employeeRepository.save(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
-        employeeRepository.save(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
-        employeeRepository.save(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
-        employeeRepository.save(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
+        employeeRepository.save(new Employee(null, "John Smith", 32, Gender.MALE, 5000.0));
+        employeeRepository.save(new Employee(null, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
+        employeeRepository.save(new Employee(null, "David Williams", 35, Gender.MALE, 5500.0));
+        employeeRepository.save(new Employee(null, "Emily Brown", 23, Gender.FEMALE, 4500.0));
+        employeeRepository.save(new Employee(null, "Michael Jones", 40, Gender.MALE, 7000.0));
     }
 
     @Test
@@ -138,7 +138,6 @@ class EmployeeControllerTest {
                 givenGender,
                 givenSalary
         );
-
         // When
         // Then
         client.perform(MockMvcRequestBuilders.post("/employees")
@@ -152,8 +151,8 @@ class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenGender.name()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenSalary));
         List<Employee> employees = employeeRepository.findAll();
-//        assertThat(employees).hasSize(1);
-        assertThat(employees.get(0).getId()).isEqualTo(1);
+        assertThat(employees).hasSize(1);
+        assertThat(employees.get(0).getId()).isEqualTo(6);
         assertThat(employees.get(0).getName()).isEqualTo(givenName);
         assertThat(employees.get(0).getAge()).isEqualTo(givenAge);
         assertThat(employees.get(0).getGender()).isEqualTo(givenGender);

@@ -35,7 +35,7 @@ public class EmployeeService {
     }
 
     public Employee findById(Integer employeeId) {
-        return employeeRepository.getEmployeeById(employeeId);
+        return employeeRepository.findById(employeeId).orElse(null);
     }
 
     public Employee create(Employee employee) {
@@ -49,7 +49,7 @@ public class EmployeeService {
     }
 
     public Employee update(Integer employeeId , Employee employee) {
-        Employee employeeExisted = employeeRepository.getEmployeeById(employeeId);
+        Employee employeeExisted = employeeRepository.findById(employeeId).orElse(null);
         if(!employeeExisted.getActive())
             throw new EmployeeInactiveException();
 
