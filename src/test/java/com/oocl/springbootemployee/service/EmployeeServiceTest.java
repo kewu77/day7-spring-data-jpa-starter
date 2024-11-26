@@ -38,7 +38,7 @@ class EmployeeServiceTest {
     @Test
     void should_return_the_given_employees_when_getAllEmployees() {
         //given
-        when(employeeInMemoryRepository.findAll()).thenReturn(List.of(new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0)));
+        when(employeeRepository.findAll()).thenReturn(List.of(new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0)));
 
         //when
         List<Employee> allEmployees = employeeService.findAll();
