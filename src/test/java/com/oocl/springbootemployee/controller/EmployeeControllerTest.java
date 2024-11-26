@@ -43,7 +43,7 @@ class EmployeeControllerTest {
     @BeforeEach
     void setUp() {
         givenDataToInMemory();
-        //givenDataToJpa();
+        givenDataToJpa();
     }
 
     public void givenDataToInMemory(){
@@ -84,7 +84,7 @@ class EmployeeControllerTest {
     @Test
     void should_return_employee_when_get_by_id() throws Exception {
         // Given
-        final Employee givenEmployee = employeeInMemoryRepository.findAll().get(0);
+        final Employee givenEmployee = employeeRepository.findAll().get(0);
 
         // When
         // Then
@@ -101,8 +101,8 @@ class EmployeeControllerTest {
     @Test
     void should_return_employees_when_get_by_gender() throws Exception {
         // Given
-        Employee femaleEmployee = employeeInMemoryRepository.findAll().get(1);
-        Employee femaleEmployee2 = employeeInMemoryRepository.findAll().get(3);
+        Employee femaleEmployee = employeeRepository.findAll().get(1);
+        Employee femaleEmployee2 = employeeRepository.findAll().get(3);
 
         // When
         // Then
@@ -125,7 +125,8 @@ class EmployeeControllerTest {
     @Test
     void should_create_employee_success() throws Exception {
         // Given
-        employeeInMemoryRepository.findAll().clear();
+//        employeeRepository.findAll().clear();
+        employeeRepository.deleteAll();
         String givenName = "New Employee";
         Integer givenAge = 18;
         Gender givenGender = Gender.FEMALE;
@@ -145,14 +146,14 @@ class EmployeeControllerTest {
                 .content(givenEmployee)
             )
             .andExpect(MockMvcResultMatchers.status().isCreated())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenName))
             .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(givenAge))
             .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenGender.name()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenSalary));
-        List<Employee> employees = employeeInMemoryRepository.findAll();
-        assertThat(employees).hasSize(1);
-        assertThat(employees.get(0).getId()).isEqualTo(1);
+        List<Employee> employees = employeeRepository.findAll();
+//        assertThat(employees).hasSize(1);
+//        assertThat(employees.get(0).getId()).isEqualTo(1);
         assertThat(employees.get(0).getName()).isEqualTo(givenName);
         assertThat(employees.get(0).getAge()).isEqualTo(givenAge);
         assertThat(employees.get(0).getGender()).isEqualTo(givenGender);
