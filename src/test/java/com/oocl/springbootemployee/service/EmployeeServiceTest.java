@@ -106,14 +106,14 @@ class EmployeeServiceTest {
     @Test
     void should_throw_EmployeeInactiveException_when_update_inactive_employee() {
         //given
-        EmployeeInMemoryRepository mockedEmployeeRepository = mock(EmployeeInMemoryRepository.class);
+
         Employee inactiveEmployee = new Employee(1, "Bob", 31, Gender.FEMALE, 8000.0);
         inactiveEmployee.setActive(false);
-        when(mockedEmployeeRepository.findById(1)).thenReturn(inactiveEmployee);
-        EmployeeService employeeService = new EmployeeService(mockedEmployeeRepository);
+        when(employeeInMemoryRepository.findById(1)).thenReturn(inactiveEmployee);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository,employeeRepository);
         //when
         //then
         assertThrows(EmployeeInactiveException.class, () -> employeeService.update(1, inactiveEmployee));
-        verify(mockedEmployeeRepository, never()).create(any());
+        verify(employeeInMemoryRepository, never()).create(any());
     }
 }
