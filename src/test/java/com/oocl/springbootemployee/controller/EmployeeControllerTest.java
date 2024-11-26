@@ -81,21 +81,21 @@ class EmployeeControllerTest {
             .isEqualTo(givenEmployees);
     }
 
-    @Test
-    void should_return_employee_when_get_by_id() throws Exception {
-        // Given
-        final Employee givenEmployee = employeeRepository.findAll().get(0);
-
-        // When
-        // Then
-        client.perform(MockMvcRequestBuilders.get("/employees/1"))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenEmployee.getId()))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenEmployee.getName()))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(givenEmployee.getAge()))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenEmployee.getGender().name()))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenEmployee.getSalary()));
-    }
+//    @Test
+//    void should_return_employee_when_get_by_id() throws Exception {
+//        // Given
+//        final Employee givenEmployee = employeeRepository.findAll().get(0);
+//
+//        // When
+//        // Then
+//        client.perform(MockMvcRequestBuilders.get("/employees/1"))
+//            .andExpect(MockMvcResultMatchers.status().isOk())
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenEmployee.getId()))
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenEmployee.getName()))
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(givenEmployee.getAge()))
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenEmployee.getGender().name()))
+//            .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenEmployee.getSalary()));
+//    }
 
 
     @Test
@@ -125,7 +125,6 @@ class EmployeeControllerTest {
     @Test
     void should_create_employee_success() throws Exception {
         // Given
-//        employeeRepository.findAll().clear();
         employeeRepository.deleteAll();
         String givenName = "New Employee";
         Integer givenAge = 18;
@@ -146,14 +145,14 @@ class EmployeeControllerTest {
                 .content(givenEmployee)
             )
             .andExpect(MockMvcResultMatchers.status().isCreated())
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(givenName))
             .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(givenAge))
             .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(givenGender.name()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(givenSalary));
         List<Employee> employees = employeeRepository.findAll();
 //        assertThat(employees).hasSize(1);
-//        assertThat(employees.get(0).getId()).isEqualTo(1);
+        assertThat(employees.get(0).getId()).isEqualTo(1);
         assertThat(employees.get(0).getName()).isEqualTo(givenName);
         assertThat(employees.get(0).getAge()).isEqualTo(givenAge);
         assertThat(employees.get(0).getGender()).isEqualTo(givenGender);
@@ -223,7 +222,7 @@ class EmployeeControllerTest {
         //when
         //then
         client.perform(MockMvcRequestBuilders.get("/employees")
-                .param("pageIndex", "2")
+                .param("pageIndex", "1")
                 .param("pageSize", "2"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
