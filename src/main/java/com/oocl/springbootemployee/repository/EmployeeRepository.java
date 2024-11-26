@@ -13,4 +13,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     List<Employee> getAllByGender(Gender gender);
 
     Employee getEmployeeById(Integer id);
+
+
 }

@@ -49,11 +49,11 @@ public class EmployeeService {
     }
 
     public Employee update(Integer employeeId , Employee employee) {
-        Employee employeeExisted = employeeInMemoryRepository.findById(employeeId);
+        Employee employeeExisted = employeeRepository.getEmployeeById(employeeId);
         if(!employeeExisted.getActive())
             throw new EmployeeInactiveException();
 
-        return employeeInMemoryRepository.update(employeeId, employee);
+        return employeeRepository.save(employee);
     }
 
     public void delete(Integer employeeId) {
