@@ -13,12 +13,17 @@ public class Company {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "companyId")
     private List<Employee> employees = new ArrayList<>();
 
     public Company(Integer id, String name, List<Employee> employees) {
         this.id = id;
+        this.name = name;
+        this.employees = employees;
+    }
+
+    public Company(String name, List employees) {
         this.name = name;
         this.employees = employees;
     }
