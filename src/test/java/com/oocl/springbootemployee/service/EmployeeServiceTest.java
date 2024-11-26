@@ -84,13 +84,12 @@ class EmployeeServiceTest {
     @Test
     void should_created_employee_active_when_create_employee() {
         //given
-        EmployeeInMemoryRepository mockedEmployeeRepository = mock(EmployeeInMemoryRepository.class);
-        EmployeeService employeeService = new EmployeeService(mockedEmployeeRepository);
+        EmployeeService employeeService = new EmployeeService(employeeInMemoryRepository,employeeRepository);
         Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
         //when
         employeeService.create(lucy);
         /* then */
-        verify(mockedEmployeeRepository).create(argThat(Employee::getActive));
+        verify(employeeInMemoryRepository).create(argThat(Employee::getActive));
     }
 
     @Test
